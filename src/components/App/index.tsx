@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react'
+import React, {ChangeEvent, ReactElement} from 'react'
 import {Container} from '@material-ui/core'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
@@ -7,27 +7,55 @@ import Typography from '@material-ui/core/Typography'
 import AdvancedTab from '../Tabs/AdvancedTab'
 import BasicTab from '../Tabs/BasicTab'
 
-const App: React.FC = (): React.ReactElement => {
-    const [tabNumber, setTabNumber] = React.useState(0)
+export interface FormDataInterface {
+    activated: boolean;
+    logged: boolean;
+}
 
-    function handleChange(event: ChangeEvent<{}>, newNumber: number): void {
-        setTabNumber(newNumber)
+interface StateInterface {
+    formData: FormDataInterface;
+    tabNumber: number;
+}
+
+class App extends React.Component<{}, StateInterface> {
+    public constructor(props: {}) {
+        super(props)
+
+        this.state = {
+            formData: {
+                activated: false,
+                logged: false,
+            },
+            tabNumber: 0
+        }
     }
 
-    return (
-        <Container style={{width: '50%'}}>
-            <AppBar position="static">
-                <Tabs value={tabNumber} onChange={handleChange} variant="fullWidth">
-                    <Tab label="Basic"/>
-                    <Tab label="Advanced"/>
-                </Tabs>
-            </AppBar>
-            <Typography component="div" style={{paddingTop: 25}}>
-                {tabNumber === 0 && <BasicTab/>}
-                {tabNumber === 1 && <AdvancedTab/>}
-            </Typography>
-        </Container>
-    )
+    public changeTab = (event: ChangeEvent<{}>, newNumber: number): void => {
+        this.setState({tabNumber: newNumber})
+    }
+
+    public changeFormData = (newFormData: FormDataInterface): void => {
+        this.setState({formData: newFormData})
+    }
+
+    public render(): ReactElement {
+        const {tabNumber, formData} = this.state
+
+        return (
+            <Container style={{width: '50%'}}>
+                <AppBar position="static">
+                    <Tabs value={tabNumber} onChange={this.changeTab} variant="fullWidth">
+                        <Tab label="Basic"/>
+                        <Tab label="Advanced"/>
+                    </Tabs>
+                </AppBar>
+                <Typography component="div" style={{paddingTop: 25}}>
+                    {tabNumber === 0 && <BasicTab onDataChange={this.changeFormData} data={formData}/>}
+                    {tabNumber === 1 && <AdvancedTab data={formData}/>}
+                </Typography>
+            </Container>
+        )
+    }
 }
 
 export default App

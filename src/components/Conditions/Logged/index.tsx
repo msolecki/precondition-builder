@@ -17,13 +17,13 @@ const useStyles = makeStyles(({spacing}) => ({
     },
 }))
 
-interface ActivatedProps {
+interface LoggedProps {
     onDataChange(value: boolean): void;
 
-    activated: boolean;
+    logged: boolean;
 }
 
-const Activated: React.FC<ActivatedProps> = (props: ActivatedProps): React.ReactElement => {
+const Logged: React.FC<LoggedProps> = (props: LoggedProps): React.ReactElement => {
     const classes = useStyles()
 
     function handleChange(event: ChangeEvent<{}>): void {
@@ -35,9 +35,9 @@ const Activated: React.FC<ActivatedProps> = (props: ActivatedProps): React.React
     return (
         <form className={classes.root} autoComplete="off">
             <FormControl className={classes.formControl} fullWidth required component='div'>
-                <InputLabel htmlFor="activated" required disableAnimation>Activated</InputLabel>
+                <InputLabel htmlFor="activated" required disableAnimation>Logged in</InputLabel>
                 <Select
-                    value={Number(props.activated)}
+                    value={Number(props.logged)}
                     onChange={handleChange}
                     inputProps={{
                         name: 'activated',
@@ -52,13 +52,13 @@ const Activated: React.FC<ActivatedProps> = (props: ActivatedProps): React.React
     )
 }
 
-Activated.propTypes = {
+Logged.propTypes = {
     onDataChange: PropTypes.func.isRequired,
-    activated: PropTypes.bool.isRequired,
+    logged: PropTypes.bool.isRequired,
 }
 
-Activated.defaultProps = {
-    activated: false,
+Logged.defaultProps = {
+    logged: false,
 }
 
-export default Activated
+export default Logged
