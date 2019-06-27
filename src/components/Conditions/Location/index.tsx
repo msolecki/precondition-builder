@@ -30,25 +30,33 @@ interface LocationProps {
     location: LocationInterface;
 }
 
-// TODO: add validation for gps points
 const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactElement => {
     const classes = useStyles()
 
-    function handleRangeChange(event: ChangeEvent<{}>): void {
+    const [latLngError, setLatLngError] = React.useState<boolean>(false)
+
+    function handleRadiusChange(event: ChangeEvent<{}>): void {
         const {value} = event.target as HTMLInputElement
 
         props.onDataChange({
             ...props.location,
-            range: Number(value),
+            radius: Number(value),
         })
     }
 
-    function handleGPSChange(event: ChangeEvent<{}>): void {
+    function isValidatedLatLangFormat(value: string): boolean {
+        return /^@([-+]?\d{1,2}[.]\d+),([-+]?\d{1,2}[.]\d+)$/.test(value)
+    }
+
+    function handleLatLangChange(event: ChangeEvent<{}>): void {
         const {value} = event.target as HTMLInputElement
+        const validated = isValidatedLatLangFormat(value)
+
+        setLatLngError(!validated)
 
         props.onDataChange({
             ...props.location,
-            gps: value
+            latlng: value
         })
     }
 
@@ -56,23 +64,24 @@ const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactEle
         <>
             <Title text="Location"/>
             <FormControl fullWidth required className={classes.formControlWithoutMargin} component='div'>
-                <InputLabel htmlFor="location-range">Range</InputLabel>
+                <InputLabel htmlFor="location-radius">Radius</InputLabel>
                 <Input
-                    id="location-range"
-                    value={(props.location.range || '')}
+                    id="location-radius"
+                    value={(props.location.radius || '')}
                     placeholder={'0'}
                     type='number'
-                    onChange={handleRangeChange}
+                    onChange={handleRadiusChange}
                     endAdornment={<InputAdornment position="end">m</InputAdornment>}
                 />
             </FormControl>
             <FormControl fullWidth required className={classes.formControl} component='div'>
-                <InputLabel htmlFor="location-gps">GPS</InputLabel>
+                <InputLabel htmlFor="location-latlng" error={latLngError}>GPS</InputLabel>
                 <Input
                     id="location-gps"
-                    value={(props.location.gps)}
+                    value={(props.location.latlng)}
                     placeholder={'@52.13,13.45'}
-                    onChange={handleGPSChange}
+                    onChange={handleLatLangChange}
+                    error={latLngError}
                 />
             </FormControl>
         </>
@@ -82,15 +91,15 @@ const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactEle
 Location.propTypes = {
     onDataChange: PropTypes.func.isRequired,
     location: PropTypes.shape({
-        range: PropTypes.number.isRequired,
-        gps: PropTypes.string.isRequired,
+        radius: PropTypes.number.isRequired,
+        latlng: PropTypes.string.isRequired,
     }).isRequired
 }
 
 Location.defaultProps = {
     location: {
-        gps: '',
-        range: 0
+        latlng: '',
+        radius: 0
     },
 }
 

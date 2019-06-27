@@ -8,14 +8,14 @@ import AdvancedTab from '../Tabs/AdvancedTab'
 import BasicTab from '../Tabs/BasicTab'
 
 export interface LocationInterface {
-    range: number;
-    gps: string;
+    radius: number;
+    latlng: string;
 }
 
 export interface FormDataInterface {
     activated: boolean;
     logged: boolean;
-    location: LocationInterface
+    location: LocationInterface;
 }
 
 interface StateInterface {
@@ -32,8 +32,8 @@ class App extends React.Component<{}, StateInterface> {
                 activated: false,
                 logged: false,
                 location: {
-                    range: 0,
-                    gps: ''
+                    radius: 0,
+                    latlng: ''
                 },
             },
             tabNumber: 0

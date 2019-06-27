@@ -60,8 +60,8 @@ BasicTab.propTypes = {
         activated: PropTypes.bool.isRequired,
         logged: PropTypes.bool.isRequired,
         location: PropTypes.shape({
-            range: PropTypes.number.isRequired,
-            gps: PropTypes.string.isRequired,
+            radius: PropTypes.number.isRequired,
+            latlng: PropTypes.string.isRequired,
         }).isRequired
     }).isRequired
 }
@@ -71,8 +71,8 @@ BasicTab.defaultProps = {
         activated: false,
         logged: false,
         location: {
-            gps: '',
-            range: 0
+            latlng: '',
+            radius: 0
         },
     },
 }
