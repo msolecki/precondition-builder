@@ -7,9 +7,15 @@ import Typography from '@material-ui/core/Typography'
 import AdvancedTab from '../Tabs/AdvancedTab'
 import BasicTab from '../Tabs/BasicTab'
 
+export interface LocationInterface {
+    range: number;
+    gps: string;
+}
+
 export interface FormDataInterface {
     activated: boolean;
     logged: boolean;
+    location: LocationInterface
 }
 
 interface StateInterface {
@@ -25,6 +31,10 @@ class App extends React.Component<{}, StateInterface> {
             formData: {
                 activated: false,
                 logged: false,
+                location: {
+                    range: 0,
+                    gps: ''
+                },
             },
             tabNumber: 0
         }

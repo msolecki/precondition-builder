@@ -3,7 +3,8 @@ import Paper from '@material-ui/core/Paper'
 import {makeStyles} from '@material-ui/core/styles'
 import Activated from '../../Conditions/Activated'
 import Logged from '../../Conditions/Logged'
-import {FormDataInterface} from '../../App'
+import Location from '../../Conditions/Location'
+import {FormDataInterface, LocationInterface} from '../../App'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(({spacing}) => ({
@@ -35,10 +36,20 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
         })
     }
 
+    function locationChange(location: LocationInterface): void {
+        props.onDataChange({
+            ...props.data,
+            location
+        })
+    }
+
     return (
         <Paper className={classes.root}>
-            <Activated onDataChange={activatedChange} activated={props.data.activated}/>
-            <Logged onDataChange={loggedChange} logged={props.data.logged}/>
+            <form autoComplete="off">
+                <Activated onDataChange={activatedChange} activated={props.data.activated}/>
+                <Logged onDataChange={loggedChange} logged={props.data.logged}/>
+                <Location onDataChange={locationChange} location={props.data.location}/>
+            </form>
         </Paper>
     )
 }
@@ -48,6 +59,10 @@ BasicTab.propTypes = {
     data: PropTypes.shape({
         activated: PropTypes.bool.isRequired,
         logged: PropTypes.bool.isRequired,
+        location: PropTypes.shape({
+            range: PropTypes.number.isRequired,
+            gps: PropTypes.string.isRequired,
+        }).isRequired
     }).isRequired
 }
 
@@ -55,6 +70,10 @@ BasicTab.defaultProps = {
     data: {
         activated: false,
         logged: false,
+        location: {
+            gps: '',
+            range: 0
+        },
     },
 }
 
