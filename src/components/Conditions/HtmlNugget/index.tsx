@@ -32,7 +32,7 @@ const useStyles = makeStyles(({spacing}) => ({
 interface HtmlNuggetProps {
     onDataChange(value: boolean): void;
 
-    ids: string[];
+    //ids: string[];
 }
 
 const HtmlNugget: React.FC<HtmlNuggetProps> = (props: HtmlNuggetProps): React.ReactElement => {
@@ -43,7 +43,7 @@ const HtmlNugget: React.FC<HtmlNuggetProps> = (props: HtmlNuggetProps): React.Re
         <>
             <Title text="Location"/>
             <FormControl fullWidth required className={classes.formControlWithoutMargin} component='div'>
-                test
+                
             </FormControl>
         </>
     )

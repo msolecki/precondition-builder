@@ -7,6 +7,7 @@ import {Input} from '@material-ui/core'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
 import Title from '../../Title'
+import {LocationInterface} from '../../App/interfaces'
 
 const useStyles = makeStyles(({spacing}) => ({
     root: {
@@ -25,22 +26,30 @@ const useStyles = makeStyles(({spacing}) => ({
 }))
 
 interface LocationProps {
-    setRadius(value: number): void;
+    onDataChange(value: LocationInterface): void;
 
-    setLatLng(value: string): void;
-
-    radius: number | null;
-    latLng: string | null;
+    location: LocationInterface | null;
 }
 
 const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactElement => {
     const classes = useStyles()
+
     const [latLngError, setLatLngError] = React.useState<boolean>(false)
+    const [radius, setRadius] = React.useState<number | null>(props.location ? props.location.radius : null)
+    const [latLng, setLatLng] = React.useState<string | null>(props.location ? props.location.latLng : null)
+
+    function setLocation(): void {
+        props.onDataChange({
+            radius,
+            latLng,
+        })
+    }
 
     function handleRadiusChange(event: ChangeEvent<{}>): void {
         const {value} = event.target as HTMLInputElement
 
-        props.setRadius(Number(value))
+        setRadius(Number(value))
+        setLocation()
     }
 
     function isValidatedLatLangFormat(value: string): boolean {
@@ -53,7 +62,8 @@ const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactEle
 
         setLatLngError(!validated)
 
-        props.setLatLng(value)
+        setLatLng(value)
+        setLocation()
     }
 
     return (
@@ -67,7 +77,7 @@ const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactEle
                             id="location-radius"
                             placeholder={'0'}
                             type='number'
-                            value={Number(props.radius) || ''}
+                            value={Number(radius) || ''}
                             onChange={handleRadiusChange}
                             endAdornment={<InputAdornment position="end">m</InputAdornment>}
                             inputProps={{min: 5, max: 10000, step: 1}}
@@ -79,7 +89,7 @@ const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactEle
                         <InputLabel htmlFor="location-latlng" error={latLngError}>GPS</InputLabel>
                         <Input
                             id="location-gps"
-                            value={props.latLng || ''}
+                            value={latLng || ''}
                             placeholder={'@52.13,13.45'}
                             onChange={handleLatLangChange}
                             error={latLngError}
@@ -92,16 +102,15 @@ const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactEle
 }
 
 Location.propTypes = {
-    setRadius: PropTypes.func.isRequired,
-    setLatLng: PropTypes.func.isRequired,
-
-    radius: PropTypes.number,
-    latLng: PropTypes.string,
+    onDataChange: PropTypes.func.isRequired,
+    location: PropTypes.any // TODO it should be fixed
 }
 
 Location.defaultProps = {
-    radius: null,
-    latLng: null,
+    location: {
+        radius: null,
+        latLng: null,
+    },
 }
 
 export default Location

@@ -11,6 +11,7 @@ import {ConditionInterface} from './interfaces'
 export interface StateInterface {
     conditions: ConditionInterface[];
     tabNumber: number;
+    activated: boolean;
 }
 
 class App extends React.Component<{}, StateInterface> {
@@ -19,12 +20,17 @@ class App extends React.Component<{}, StateInterface> {
 
         this.state = {
             conditions: [],
+            activated: false,
             tabNumber: 0
         }
     }
 
     private changeTab = (event: ChangeEvent<{}>, newNumber: number): void => {
         this.setState({tabNumber: newNumber})
+    }
+
+    private setActivated = (activated: boolean): void => {
+        this.setState({activated})
     }
 
     public handleAddCondition = (newCondition: ConditionInterface): void => {
@@ -35,7 +41,7 @@ class App extends React.Component<{}, StateInterface> {
     }
 
     public render(): ReactElement {
-        const {tabNumber, conditions} = this.state
+        const {tabNumber, conditions, activated} = this.state
 
         return (
             <Container style={{width: '50%'}}>
@@ -46,7 +52,12 @@ class App extends React.Component<{}, StateInterface> {
                     </Tabs>
                 </AppBar>
                 <Typography component="div" style={{paddingTop: 25}}>
-                    {tabNumber === 0 && <BasicTab handleAddCondition={this.handleAddCondition} conditions={conditions}/>}
+                    {tabNumber === 0 && <BasicTab
+                        handleAddCondition={this.handleAddCondition}
+                        conditions={conditions}
+                        activated={activated}
+                        handleActivated={this.setActivated}
+                    />}
                     {tabNumber === 1 && <AdvancedTab data={conditions}/>}
                 </Typography>
             </Container>

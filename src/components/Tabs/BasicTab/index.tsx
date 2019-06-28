@@ -6,50 +6,48 @@ import {makeStyles} from '@material-ui/core/styles'
 import Activated from '../../Conditions/Activated'
 import Logged from '../../Conditions/Logged'
 import Location from '../../Conditions/Location'
-import {ConditionInterface, LocationInterface, NuggetConditionInterface} from '../../App/interfaces'
+import {ConditionInterface, NuggetConditionInterface} from '../../App/interfaces'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(({spacing}) => ({
     root: {
         padding: spacing(3, 2),
-    },
-    button: {
-        margin: spacing(3, 2),
     },
 }))
 
 interface BasicTabProps {
     handleAddCondition(value: ConditionInterface): void;
 
+    handleActivated(value: boolean): void;
+
+    activated: boolean;
     conditions: ConditionInterface[];
 }
 
 const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactElement => {
     const classes = useStyles()
 
-    const [activated, setActivated] = React.useState<boolean | null>(null)
     const [logged, setLogged] = React.useState<boolean | null>(null)
-    const [location, setLocation] = React.useState<LocationInterface | null>(null)
+    const [radius, setRadius] = React.useState<number | null>(null)
+    const [latLng, setLatLng] = React.useState<string | null>(null)
     const [nuggets, setNuggets] = React.useState<NuggetConditionInterface[] | null>(null)
 
     const clearState = (): void => {
-        setActivated(null)
+        props.handleActivated(false)
         setLogged(null)
-        setLocation(null)
+        setRadius(null)
+        setLatLng(null)
         setNuggets(null)
     }
 
     const addCondition = (): void => {
         props.handleAddCondition({
-            activated,
             logged,
-            location,
+            location: {
+                radius, latLng
+            },
             nuggets,
         })
-    }
-
-    const onButtonClick = (): void => {
-        addCondition()
-        clearState()
     }
 
     return (
@@ -57,25 +55,49 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
             <form autoComplete="off">
                 <Grid container spacing={3}>
                     <Grid item xs={6}>
-                        <Activated onDataChange={setActivated} activated={activated}/>
+                        <Activated onDataChange={props.handleActivated} activated={props.activated}/>
                     </Grid>
                     <Grid item xs={6}>
                         <Logged onDataChange={setLogged} logged={logged}/>
                     </Grid>
                 </Grid>
-                <Location onDataChange={setLocation} location={location}/>
+                <Location setRadius={setRadius} setLatLng={setLatLng} radius={radius} latLng={latLng}/>
                 <Grid container spacing={3}>
                     {/*<HtmlNugget onDataChange={() => {
                         }} ids={}/>*/}
                 </Grid>
                 <Grid container spacing={3}>
-                    <Button variant="contained" color="secondary" onClick={onButtonClick} fullWidth className={classes.button}>
-                        Add Condition
-                    </Button>
+                    <Grid item xs={4}>
+                        <Button variant="contained" color="primary" fullWidth>
+                            Add Condition
+                        </Button>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Button variant="contained" color="default" onClick={clearState} fullWidth>
+                            Clear
+                        </Button>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Button variant="contained" color="secondary" onClick={addCondition} fullWidth>
+                            Save
+                        </Button>
+                    </Grid>
                 </Grid>
             </form>
         </Paper>
     )
+}
+
+BasicTab.propTypes = {
+    handleAddCondition: PropTypes.func.isRequired,
+    handleActivated: PropTypes.func.isRequired,
+    conditions: PropTypes.any, // TODO it should be fixed
+    activated: PropTypes.bool.isRequired,
+}
+
+BasicTab.defaultProps = {
+    activated: false,
+    conditions: [],
 }
 
 export default BasicTab
