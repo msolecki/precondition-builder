@@ -3,11 +3,6 @@ export interface LocationInterface {
     latLng: string | null;
 }
 
-enum OperatingSystemInterface {
-    iOS = 'iOS',
-    Android = 'Android',
-}
-
 export interface NuggetConditionInterface {
     id: number;
     condition: 'read';
@@ -16,6 +11,7 @@ export interface NuggetConditionInterface {
 
 export interface ConditionInterface {
     logged: boolean | null;
+    system: string | null;
     location: LocationInterface | null;
     nuggets: NuggetConditionInterface[] | null;
 }

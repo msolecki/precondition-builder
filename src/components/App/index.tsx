@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import AdvancedTab from '../Tabs/AdvancedTab'
 import BasicTab from '../Tabs/BasicTab'
 import {ConditionInterface} from './interfaces'
+import {transform} from '../../dataTransformer'
 
 export interface StateInterface {
     conditions: ConditionInterface[];
@@ -58,7 +59,7 @@ class App extends React.Component<{}, StateInterface> {
                         activated={activated}
                         handleActivated={this.setActivated}
                     />}
-                    {tabNumber === 1 && <AdvancedTab data={conditions}/>}
+                    {tabNumber === 1 && <AdvancedTab data={transform(conditions, activated)}/>}
                 </Typography>
             </Container>
         )

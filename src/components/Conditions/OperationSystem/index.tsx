@@ -1,13 +1,10 @@
 import React, {ChangeEvent} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import {Input} from '@material-ui/core'
+import Select from '@material-ui/core/Select'
 import PropTypes from 'prop-types'
-import Grid from '@material-ui/core/Grid'
 import Title from '../../Title'
-import {LocationInterface} from '../../App/interfaces'
 
 const useStyles = makeStyles(({spacing}) => ({
     root: {
@@ -19,98 +16,51 @@ const useStyles = makeStyles(({spacing}) => ({
         marginBottom: spacing(3),
         minWidth: 120,
     },
-    formControlWithoutMargin: {
-        marginTop: spacing(1),
-        minWidth: 120,
-    },
 }))
 
-interface LocationProps {
-    onDataChange(value: LocationInterface): void;
+interface OperatingSystemProps {
+    onDataChange(value: string | null): void;
 
-    location: LocationInterface | null;
+    system: string | null;
 }
 
-const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactElement => {
+const OperatingSystem: React.FC<OperatingSystemProps> = (props: OperatingSystemProps): React.ReactElement => {
     const classes = useStyles()
 
-    const [latLngError, setLatLngError] = React.useState<boolean>(false)
-    const [radius, setRadius] = React.useState<number | null>(props.location ? props.location.radius : null)
-    const [latLng, setLatLng] = React.useState<string | null>(props.location ? props.location.latLng : null)
+    function handleChange(event: ChangeEvent<{}>): void {
+        const {value} = event.target as HTMLSelectElement
 
-    function setLocation(): void {
-        props.onDataChange({
-            radius,
-            latLng,
-        })
-    }
-
-    function handleRadiusChange(event: ChangeEvent<{}>): void {
-        const {value} = event.target as HTMLInputElement
-
-        setRadius(Number(value))
-        setLocation()
-    }
-
-    function isValidatedLatLangFormat(value: string): boolean {
-        return /^@([-+]?\d{1,2}[.]\d+),([-+]?\d{1,2}[.]\d+)$/.test(value)
-    }
-
-    function handleLatLangChange(event: ChangeEvent<{}>): void {
-        const {value} = event.target as HTMLInputElement
-        const validated = isValidatedLatLangFormat(value)
-
-        setLatLngError(!validated)
-
-        setLatLng(value)
-        setLocation()
+        props.onDataChange(value)
     }
 
     return (
         <>
-            <Title text="Location"/>
-            <Grid container spacing={3}>
-                <Grid item xs={6}>
-                    <FormControl fullWidth required className={classes.formControlWithoutMargin} component='div'>
-                        <InputLabel htmlFor="location-radius">Radius</InputLabel>
-                        <Input
-                            id="location-radius"
-                            placeholder={'0'}
-                            type='number'
-                            value={Number(radius) || ''}
-                            onChange={handleRadiusChange}
-                            endAdornment={<InputAdornment position="end">m</InputAdornment>}
-                            inputProps={{min: 5, max: 10000, step: 1}}
-                        />
-                    </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                    <FormControl fullWidth required className={classes.formControl} component='div'>
-                        <InputLabel htmlFor="location-latlng" error={latLngError}>GPS</InputLabel>
-                        <Input
-                            id="location-gps"
-                            value={latLng || ''}
-                            placeholder={'@52.13,13.45'}
-                            onChange={handleLatLangChange}
-                            error={latLngError}
-                        />
-                    </FormControl>
-                </Grid>
-            </Grid>
+            <Title text="Operating system"/>
+            <FormControl className={classes.formControl} fullWidth required component='div'>
+                <Select
+                    value={props.system === null ? '' : props.system}
+                    displayEmpty
+                    onChange={handleChange}
+                    inputProps={{
+                        name: 'system',
+                        id: 'system',
+                    }}
+                >
+                    <MenuItem component='li' button={true} value={'iOS'}>iOS</MenuItem>
+                    <MenuItem component='li' button={true} value={'Android'}>Android</MenuItem>
+                </Select>
+            </FormControl>
         </>
     )
 }
 
-Location.propTypes = {
+OperatingSystem.propTypes = {
     onDataChange: PropTypes.func.isRequired,
-    location: PropTypes.any // TODO it should be fixed
+    system: PropTypes.string,
 }
 
-Location.defaultProps = {
-    location: {
-        radius: null,
-        latLng: null,
-    },
+OperatingSystem.defaultProps = {
+    system: null,
 }
 
-export default Location
+export default OperatingSystem

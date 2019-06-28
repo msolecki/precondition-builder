@@ -8,6 +8,7 @@ import Logged from '../../Conditions/Logged'
 import Location from '../../Conditions/Location'
 import {ConditionInterface, NuggetConditionInterface} from '../../App/interfaces'
 import PropTypes from 'prop-types'
+import OperatingSystem from '../../Conditions/OperationSystem'
 
 const useStyles = makeStyles(({spacing}) => ({
     root: {
@@ -28,6 +29,7 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
     const classes = useStyles()
 
     const [logged, setLogged] = React.useState<boolean | null>(null)
+    const [system, setSystem] = React.useState<string | null>(null)
     const [radius, setRadius] = React.useState<number | null>(null)
     const [latLng, setLatLng] = React.useState<string | null>(null)
     const [nuggets, setNuggets] = React.useState<NuggetConditionInterface[] | null>(null)
@@ -43,6 +45,7 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
     const addCondition = (): void => {
         props.handleAddCondition({
             logged,
+            system,
             location: {
                 radius, latLng
             },
@@ -50,12 +53,22 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
         })
     }
 
+    const onSave = (): void => {
+        addCondition()
+        clearState()
+    }
+
     return (
         <Paper className={classes.root}>
             <form autoComplete="off">
                 <Grid container spacing={3}>
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <Activated onDataChange={props.handleActivated} activated={props.activated}/>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                        <OperatingSystem onDataChange={setSystem} system={system}/>
                     </Grid>
                     <Grid item xs={6}>
                         <Logged onDataChange={setLogged} logged={logged}/>
@@ -78,7 +91,7 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
                         </Button>
                     </Grid>
                     <Grid item xs={4}>
-                        <Button variant="contained" color="secondary" onClick={addCondition} fullWidth>
+                        <Button variant="contained" color="secondary" onClick={onSave} fullWidth>
                             Save
                         </Button>
                     </Grid>
