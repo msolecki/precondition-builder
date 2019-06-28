@@ -17,8 +17,7 @@ export const transform = (conditions: ConditionInterface[], activated: boolean):
             if (condition.location && condition.location.radius) {
                 result.push(`location_radius == '${condition.location.radius}'`)
             }
-
-
+            
             return result
         })
     }
