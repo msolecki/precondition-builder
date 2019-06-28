@@ -7,6 +7,7 @@ import {LocationInterface} from '../../App'
 import {Input} from '@material-ui/core'
 import PropTypes from 'prop-types'
 import Title from '../../Title'
+import Grid from '@material-ui/core/Grid'
 
 const useStyles = makeStyles(({spacing}) => ({
     root: {
@@ -14,12 +15,12 @@ const useStyles = makeStyles(({spacing}) => ({
         flexWrap: 'wrap',
     },
     formControl: {
-        margin: spacing(1),
+        marginTop: spacing(1),
         marginBottom: spacing(3),
         minWidth: 120,
     },
     formControlWithoutMargin: {
-        margin: spacing(1),
+        marginTop: spacing(1),
         minWidth: 120,
     },
 }))
@@ -61,30 +62,35 @@ const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactEle
     }
 
     return (
-        <>
+        <Grid container spacing={3}>
             <Title text="Location"/>
-            <FormControl fullWidth required className={classes.formControlWithoutMargin} component='div'>
-                <InputLabel htmlFor="location-radius">Radius</InputLabel>
-                <Input
-                    id="location-radius"
-                    value={(props.location.radius || '')}
-                    placeholder={'0'}
-                    type='number'
-                    onChange={handleRadiusChange}
-                    endAdornment={<InputAdornment position="end">m</InputAdornment>}
-                />
-            </FormControl>
-            <FormControl fullWidth required className={classes.formControl} component='div'>
-                <InputLabel htmlFor="location-latlng" error={latLngError}>GPS</InputLabel>
-                <Input
-                    id="location-gps"
-                    value={(props.location.latlng)}
-                    placeholder={'@52.13,13.45'}
-                    onChange={handleLatLangChange}
-                    error={latLngError}
-                />
-            </FormControl>
-        </>
+            <Grid item xs={6}>
+                <FormControl fullWidth required className={classes.formControlWithoutMargin} component='div'>
+                    <InputLabel htmlFor="location-radius">Radius</InputLabel>
+                    <Input
+                        id="location-radius"
+                        value={(props.location.radius || '')}
+                        placeholder={'0'}
+                        type='number'
+                        onChange={handleRadiusChange}
+                        endAdornment={<InputAdornment position="end">m</InputAdornment>}
+                        inputProps={{min: 5, max: 10000, step: 1}}
+                    />
+                </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+                <FormControl fullWidth required className={classes.formControl} component='div'>
+                    <InputLabel htmlFor="location-latlng" error={latLngError}>GPS</InputLabel>
+                    <Input
+                        id="location-gps"
+                        value={(props.location.latlng)}
+                        placeholder={'@52.13,13.45'}
+                        onChange={handleLatLangChange}
+                        error={latLngError}
+                    />
+                </FormControl>
+            </Grid>
+        </Grid>
     )
 }
 

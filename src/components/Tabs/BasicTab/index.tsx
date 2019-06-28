@@ -1,5 +1,6 @@
 import React from 'react'
 import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
 import {makeStyles} from '@material-ui/core/styles'
 import Activated from '../../Conditions/Activated'
 import Logged from '../../Conditions/Logged'
@@ -46,8 +47,14 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
     return (
         <Paper className={classes.root}>
             <form autoComplete="off">
-                <Activated onDataChange={activatedChange} activated={props.data.activated}/>
-                <Logged onDataChange={loggedChange} logged={props.data.logged}/>
+                <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                        <Activated onDataChange={activatedChange} activated={props.data.activated}/>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Logged onDataChange={loggedChange} logged={props.data.logged}/>
+                    </Grid>
+                </Grid>
                 <Location onDataChange={locationChange} location={props.data.location}/>
             </form>
         </Paper>
