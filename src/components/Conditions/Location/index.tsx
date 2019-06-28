@@ -38,10 +38,18 @@ const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactEle
     const [radius, setRadius] = React.useState<number | null>(props.location ? props.location.radius : null)
     const [latLng, setLatLng] = React.useState<string | null>(props.location ? props.location.latLng : null)
 
+    function setLocation(): void {
+        props.onDataChange({
+            radius,
+            latLng,
+        })
+    }
+
     function handleRadiusChange(event: ChangeEvent<{}>): void {
         const {value} = event.target as HTMLInputElement
 
         setRadius(Number(value))
+        setLocation()
     }
 
     function isValidatedLatLangFormat(value: string): boolean {
@@ -55,6 +63,7 @@ const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactEle
         setLatLngError(!validated)
 
         setLatLng(value)
+        setLocation()
     }
 
     return (
@@ -94,14 +103,14 @@ const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactEle
 
 Location.propTypes = {
     onDataChange: PropTypes.func.isRequired,
-    location: PropTypes.shape({
-        radius: PropTypes.number.isRequired,
-        latLng: PropTypes.string.isRequired,
-    })
+    location: PropTypes.any // TODO it should be fixed
 }
 
 Location.defaultProps = {
-    location: null,
+    location: {
+        radius: null,
+        latLng: null,
+    },
 }
 
 export default Location

@@ -1,6 +1,6 @@
 export interface LocationInterface {
-    radius: number;
-    latLng: string;
+    radius: number | null;
+    latLng: string | null;
 }
 
 export interface NuggetConditionInterface {
