@@ -21,7 +21,7 @@ const useStyles = makeStyles(({spacing}) => ({
 interface ActivatedProps {
     onDataChange(value: boolean): void;
 
-    activated: boolean;
+    activated: boolean | null;
 }
 
 const Activated: React.FC<ActivatedProps> = (props: ActivatedProps): React.ReactElement => {
@@ -38,7 +38,8 @@ const Activated: React.FC<ActivatedProps> = (props: ActivatedProps): React.React
             <Title text="Activated"/>
             <FormControl className={classes.formControl} fullWidth required component='div'>
                 <Select
-                    value={Number(props.activated)}
+                    value={props.activated === null ? '' : Number(props.activated)}
+                    displayEmpty
                     onChange={handleChange}
                     inputProps={{
                         name: 'activated',
@@ -55,11 +56,11 @@ const Activated: React.FC<ActivatedProps> = (props: ActivatedProps): React.React
 
 Activated.propTypes = {
     onDataChange: PropTypes.func.isRequired,
-    activated: PropTypes.bool.isRequired,
+    activated: PropTypes.bool,
 }
 
 Activated.defaultProps = {
-    activated: false,
+    activated: null,
 }
 
 export default Activated

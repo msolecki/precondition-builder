@@ -3,11 +3,11 @@ import {makeStyles} from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import InputAdornment from '@material-ui/core/InputAdornment'
-import {LocationInterface} from '../../App'
 import {Input} from '@material-ui/core'
 import PropTypes from 'prop-types'
-import Title from '../../Title'
 import Grid from '@material-ui/core/Grid'
+import Title from '../../Title'
+import {LocationInterface} from '../../App/interfaces'
 
 const useStyles = makeStyles(({spacing}) => ({
     root: {
@@ -28,21 +28,20 @@ const useStyles = makeStyles(({spacing}) => ({
 interface LocationProps {
     onDataChange(value: LocationInterface): void;
 
-    location: LocationInterface;
+    location: LocationInterface | null;
 }
 
 const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactElement => {
     const classes = useStyles()
 
     const [latLngError, setLatLngError] = React.useState<boolean>(false)
+    const [radius, setRadius] = React.useState<number | null>(props.location ? props.location.radius : null)
+    const [latLng, setLatLng] = React.useState<string | null>(props.location ? props.location.latLng : null)
 
     function handleRadiusChange(event: ChangeEvent<{}>): void {
         const {value} = event.target as HTMLInputElement
 
-        props.onDataChange({
-            ...props.location,
-            radius: Number(value),
-        })
+        setRadius(Number(value))
     }
 
     function isValidatedLatLangFormat(value: string): boolean {
@@ -55,42 +54,41 @@ const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactEle
 
         setLatLngError(!validated)
 
-        props.onDataChange({
-            ...props.location,
-            latlng: value
-        })
+        setLatLng(value)
     }
 
     return (
-        <Grid container spacing={3}>
+        <>
             <Title text="Location"/>
-            <Grid item xs={6}>
-                <FormControl fullWidth required className={classes.formControlWithoutMargin} component='div'>
-                    <InputLabel htmlFor="location-radius">Radius</InputLabel>
-                    <Input
-                        id="location-radius"
-                        value={(props.location.radius || '')}
-                        placeholder={'0'}
-                        type='number'
-                        onChange={handleRadiusChange}
-                        endAdornment={<InputAdornment position="end">m</InputAdornment>}
-                        inputProps={{min: 5, max: 10000, step: 1}}
-                    />
-                </FormControl>
+            <Grid container spacing={3}>
+                <Grid item xs={6}>
+                    <FormControl fullWidth required className={classes.formControlWithoutMargin} component='div'>
+                        <InputLabel htmlFor="location-radius">Radius</InputLabel>
+                        <Input
+                            id="location-radius"
+                            placeholder={'0'}
+                            type='number'
+                            value={Number(radius) || ''}
+                            onChange={handleRadiusChange}
+                            endAdornment={<InputAdornment position="end">m</InputAdornment>}
+                            inputProps={{min: 5, max: 10000, step: 1}}
+                        />
+                    </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                    <FormControl fullWidth required className={classes.formControl} component='div'>
+                        <InputLabel htmlFor="location-latlng" error={latLngError}>GPS</InputLabel>
+                        <Input
+                            id="location-gps"
+                            value={latLng || ''}
+                            placeholder={'@52.13,13.45'}
+                            onChange={handleLatLangChange}
+                            error={latLngError}
+                        />
+                    </FormControl>
+                </Grid>
             </Grid>
-            <Grid item xs={6}>
-                <FormControl fullWidth required className={classes.formControl} component='div'>
-                    <InputLabel htmlFor="location-latlng" error={latLngError}>GPS</InputLabel>
-                    <Input
-                        id="location-gps"
-                        value={(props.location.latlng)}
-                        placeholder={'@52.13,13.45'}
-                        onChange={handleLatLangChange}
-                        error={latLngError}
-                    />
-                </FormControl>
-            </Grid>
-        </Grid>
+        </>
     )
 }
 
@@ -98,15 +96,12 @@ Location.propTypes = {
     onDataChange: PropTypes.func.isRequired,
     location: PropTypes.shape({
         radius: PropTypes.number.isRequired,
-        latlng: PropTypes.string.isRequired,
-    }).isRequired
+        latLng: PropTypes.string.isRequired,
+    })
 }
 
 Location.defaultProps = {
-    location: {
-        latlng: '',
-        radius: 0
-    },
+    location: null,
 }
 
 export default Location

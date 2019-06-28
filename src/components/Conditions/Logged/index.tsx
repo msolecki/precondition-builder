@@ -21,7 +21,7 @@ const useStyles = makeStyles(({spacing}) => ({
 interface LoggedProps {
     onDataChange(value: boolean): void;
 
-    logged: boolean;
+    logged: boolean | null;
 }
 
 const Logged: React.FC<LoggedProps> = (props: LoggedProps): React.ReactElement => {
@@ -38,7 +38,8 @@ const Logged: React.FC<LoggedProps> = (props: LoggedProps): React.ReactElement =
             <Title text="Logged in"/>
             <FormControl className={classes.formControl} fullWidth required component='div'>
                 <Select
-                    value={Number(props.logged)}
+                    value={props.logged === null ? '' : Number(props.logged)}
+                    displayEmpty
                     onChange={handleChange}
                     inputProps={{
                         name: 'activated',
@@ -55,11 +56,11 @@ const Logged: React.FC<LoggedProps> = (props: LoggedProps): React.ReactElement =
 
 Logged.propTypes = {
     onDataChange: PropTypes.func.isRequired,
-    logged: PropTypes.bool.isRequired,
+    logged: PropTypes.bool,
 }
 
 Logged.defaultProps = {
-    logged: false,
+    logged: null,
 }
 
 export default Logged

@@ -6,20 +6,10 @@ import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import AdvancedTab from '../Tabs/AdvancedTab'
 import BasicTab from '../Tabs/BasicTab'
+import {ConditionInterface} from './interfaces'
 
-export interface LocationInterface {
-    radius: number;
-    latlng: string;
-}
-
-export interface FormDataInterface {
-    activated: boolean;
-    logged: boolean;
-    location: LocationInterface;
-}
-
-interface StateInterface {
-    formData: FormDataInterface;
+export interface StateInterface {
+    conditions: ConditionInterface[];
     tabNumber: number;
 }
 
@@ -28,28 +18,24 @@ class App extends React.Component<{}, StateInterface> {
         super(props)
 
         this.state = {
-            formData: {
-                activated: false,
-                logged: false,
-                location: {
-                    radius: 0,
-                    latlng: ''
-                },
-            },
+            conditions: [],
             tabNumber: 0
         }
     }
 
-    public changeTab = (event: ChangeEvent<{}>, newNumber: number): void => {
+    private changeTab = (event: ChangeEvent<{}>, newNumber: number): void => {
         this.setState({tabNumber: newNumber})
     }
 
-    public changeFormData = (newFormData: FormDataInterface): void => {
-        this.setState({formData: newFormData})
+    public handleAddCondition = (newCondition: ConditionInterface): void => {
+        const conditions = this.state.conditions
+        conditions.push(newCondition)
+
+        this.setState({conditions})
     }
 
     public render(): ReactElement {
-        const {tabNumber, formData} = this.state
+        const {tabNumber, conditions} = this.state
 
         return (
             <Container style={{width: '50%'}}>
@@ -60,8 +46,8 @@ class App extends React.Component<{}, StateInterface> {
                     </Tabs>
                 </AppBar>
                 <Typography component="div" style={{paddingTop: 25}}>
-                    {tabNumber === 0 && <BasicTab onDataChange={this.changeFormData} data={formData}/>}
-                    {tabNumber === 1 && <AdvancedTab data={formData}/>}
+                    {tabNumber === 0 && <BasicTab handleAddCondition={this.handleAddCondition} conditions={conditions}/>}
+                    {tabNumber === 1 && <AdvancedTab data={conditions}/>}
                 </Typography>
             </Container>
         )

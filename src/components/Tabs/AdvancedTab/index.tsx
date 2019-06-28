@@ -1,7 +1,7 @@
 import React from 'react'
 import Paper from '@material-ui/core/Paper'
 import {makeStyles} from '@material-ui/core/styles'
-import {FormDataInterface} from '../../App'
+import {ConditionInterface} from '../../App/interfaces'
 import JSONPretty from 'react-json-pretty'
 
 const useStyles = makeStyles(({spacing}) => ({
@@ -11,7 +11,7 @@ const useStyles = makeStyles(({spacing}) => ({
 }))
 
 interface ActivatedProps {
-    data: FormDataInterface;
+    data: ConditionInterface[];
 }
 
 const AdvancedTab: React.FC<ActivatedProps> = (props: ActivatedProps): React.ReactElement => {
