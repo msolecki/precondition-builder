@@ -4,7 +4,8 @@
         "lib": [
             "dom",
             "dom.iterable",
-            "esnext"
+            "esnext",
+            "es2017"
         ],
         "allowJs": true,
         "skipLibCheck": true,
@@ -18,8 +19,17 @@
         "isolatedModules": true,
         "noEmit": true,
         "noImplicitAny": false,
-        "jsx": "preserve"
+        "jsx": "react",
+        "baseUrl": "src",
+        "declaration": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        "typeRoots": [
+            "node_modules/@types"
+        ]
     },
+    "compileOnSave": false,
     "include": [
         "src"
     ]

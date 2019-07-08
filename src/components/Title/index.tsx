@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Typography} from '@material-ui/core'
 
-interface TitleProps {
+export interface TitleProps {
     text: string;
 }
 
