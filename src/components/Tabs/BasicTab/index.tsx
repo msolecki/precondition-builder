@@ -9,6 +9,7 @@ import Location from '../../Conditions/Location'
 import {ConditionInterface, NuggetConditionInterface} from '../../App/interfaces'
 import PropTypes from 'prop-types'
 import OperatingSystem from '../../Conditions/OperationSystem'
+import HtmlNugget from '../../Conditions/HtmlNugget'
 
 const useStyles = makeStyles(({spacing}) => ({
     root: {
@@ -76,8 +77,9 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
                 </Grid>
                 <Location setRadius={setRadius} setLatLng={setLatLng} radius={radius} latLng={latLng}/>
                 <Grid container spacing={3}>
-                    {/*<HtmlNugget onDataChange={() => {
-                        }} ids={}/>*/}
+                    <Grid item xs={12}>
+                        <HtmlNugget ids={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']}/>
+                    </Grid>
                 </Grid>
                 <Grid container spacing={3}>
                     <Grid item xs={4}>
