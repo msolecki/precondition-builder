@@ -22,6 +22,7 @@ interface BasicTabProps {
 
     handleActivated(value: boolean): void;
 
+    htmlNuggetIds: string[];
     activated: boolean;
     conditions: ConditionInterface[];
 }
@@ -59,6 +60,13 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
         clearState()
     }
 
+    const addNugget = (nugget: NuggetConditionInterface): void => {
+        const newNuggets = nuggets || []
+        newNuggets.push(nugget)
+
+        setNuggets(newNuggets)
+    }
+
     return (
         <Paper className={classes.root}>
             <form autoComplete="off">
@@ -76,11 +84,7 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
                     </Grid>
                 </Grid>
                 <Location setRadius={setRadius} setLatLng={setLatLng} radius={radius} latLng={latLng}/>
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                        <HtmlNugget ids={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']}/>
-                    </Grid>
-                </Grid>
+                <HtmlNugget ids={props.htmlNuggetIds} addNugget={addNugget}/>
                 <Grid container spacing={3}>
                     <Grid item xs={4}>
                         <Button variant="contained" color="primary" fullWidth>
@@ -105,6 +109,7 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
 
 BasicTab.propTypes = {
     handleAddCondition: PropTypes.func.isRequired,
+    htmlNuggetIds: PropTypes.array.isRequired,
     handleActivated: PropTypes.func.isRequired,
     conditions: PropTypes.any, // TODO it should be fixed
     activated: PropTypes.bool.isRequired,
@@ -113,6 +118,7 @@ BasicTab.propTypes = {
 BasicTab.defaultProps = {
     activated: false,
     conditions: [],
+    htmlNuggetIds: [],
 }
 
 export default BasicTab

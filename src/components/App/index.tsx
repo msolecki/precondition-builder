@@ -15,8 +15,12 @@ export interface StateInterface {
     activated: boolean;
 }
 
-class App extends React.Component<{}, StateInterface> {
-    public constructor(props: {}) {
+interface AppProps {
+    htmlNuggetIds: string[];
+}
+
+class App extends React.Component<AppProps, StateInterface> {
+    public constructor(props: AppProps) {
         super(props)
 
         this.state = {
@@ -43,6 +47,7 @@ class App extends React.Component<{}, StateInterface> {
 
     public render(): ReactElement {
         const {tabNumber, conditions, activated} = this.state
+        const {htmlNuggetIds} = this.props
 
         return (
             <Container style={{width: '50%'}}>
@@ -57,6 +62,7 @@ class App extends React.Component<{}, StateInterface> {
                         handleAddCondition={this.handleAddCondition}
                         conditions={conditions}
                         activated={activated}
+                        htmlNuggetIds={htmlNuggetIds}
                         handleActivated={this.setActivated}
                     />}
                     {tabNumber === 1 && <AdvancedTab data={transform(conditions, activated)}/>}

@@ -1,14 +1,15 @@
 import React, {ChangeEvent} from 'react'
 import PropTypes from 'prop-types'
-import deburr from 'lodash/deburr'
-
 import Title from '../../Title'
 import FormControl from '@material-ui/core/FormControl'
-import TextField from '@material-ui/core/TextField'
-import MenuItem from '@material-ui/core/MenuItem'
-import Paper from '@material-ui/core/Paper'
 import {makeStyles} from '@material-ui/core'
-import Downshift from 'downshift'
+
+import Grid from '@material-ui/core/Grid'
+import Autocomplete from '../../Autocomplete'
+import MenuItem from '@material-ui/core/MenuItem'
+import Select from '@material-ui/core/Select'
+import {NuggetConditionInterface} from '../../App/interfaces'
+import InputLabel from '@material-ui/core/InputLabel'
 
 const useStyles = makeStyles(({spacing}) => ({
     root: {
@@ -19,141 +20,94 @@ const useStyles = makeStyles(({spacing}) => ({
         flexGrow: 1,
         position: 'relative',
     },
-    paper: {
-        position: 'absolute',
-        zIndex: 1,
-        marginTop: spacing(1),
-        left: 0,
-        right: 0,
-    },
-    chip: {
-        margin: spacing(0.5, 0.25),
-    },
-    inputRoot: {
-        flexWrap: 'wrap',
-    },
-    inputInput: {
-        width: 'auto',
-        flexGrow: 1,
-    },
-    formControlWithoutMargin: {
+    formControl: {
         marginTop: spacing(1),
         marginBottom: spacing(3),
+        minWidth: 120,
+    },
+    formControlWithoutMargin: {
         minWidth: 120,
     },
 }))
 
 interface HtmlNuggetProps {
+    addNugget(value: NuggetConditionInterface): void;
+
     ids: string[];
 }
 
 const HtmlNugget: React.FC<HtmlNuggetProps> = (props: HtmlNuggetProps): React.ReactElement => {
     const classes = useStyles()
 
-    function renderInput(inputProps): React.ReactElement {
-        const {InputProps, classes, ref, ...other} = inputProps
+    const [id, setId] = React.useState<string | null>(null)
+    const [value, setValue] = React.useState<boolean | null>(null)
 
-        return (
-            <TextField
-                InputProps={{
-                    inputRef: ref,
-                    classes: {
-                        root: classes.inputRoot,
-                        input: classes.inputInput,
-                    },
-                    ...InputProps,
-                }}
-                {...other}
-            />
-        )
-    }
-
-    function getSuggestions(value, showEmpty): string[] {
-        const inputValue = deburr(value.trim()).toLowerCase()
-        const inputLength = inputValue.length
-
-        if (inputLength === 0 && !showEmpty) {
-            return []
+    function addNugget(): void {
+        if (id && value !== null) {
+            props.addNugget({
+                id: id.toString(),
+                condition: 'read',
+                value: value
+            })
         }
-
-        return props.ids.filter((id): boolean => id.slice(0, inputLength).toLowerCase() === inputValue).slice(0, 5)
     }
 
-    function renderSuggestion(suggestionProps): React.ReactElement {
-        const {nuggetId, index, itemProps, highlightedIndex, selectedItem} = suggestionProps
-        const isHighlighted = highlightedIndex === index
-        const isSelected = (selectedItem || '').indexOf(nuggetId) > -1
+    function handleValueChange(event: ChangeEvent<{}>): void {
+        const {value} = event.target as HTMLInputElement
 
-        return (
-            <MenuItem
-                {...itemProps}
-                key={nuggetId}
-                selected={isHighlighted}
-                component="div"
-                style={{
-                    fontWeight: isSelected ? 500 : 400,
-                }}
-            >
-                {nuggetId}
-            </MenuItem>
-        )
+        setValue(Boolean(value))
     }
 
     return (
         <>
             <Title text="HTMLNugget"/>
-            <FormControl fullWidth required className={classes.formControlWithoutMargin} component='div'>
-                <Downshift>
-                    {({clearSelection, getInputProps, getItemProps, getLabelProps, getMenuProps, highlightedIndex, inputValue, isOpen, openMenu, selectedItem}): React.ReactElement => {
-                        const {onBlur, onChange, onFocus, ...inputProps} = getInputProps({
-                            onChange: (event: ChangeEvent<HTMLInputElement>): void => {
-                                if (event.target.value === '') {
-                                    clearSelection()
-                                }
-                            },
-                            onFocus: openMenu,
-                            placeholder: 'Start typing',
-                        })
-
-                        const suggestions = getSuggestions(inputValue, true)
-
-                        return (
-                            <div className={classes.container}>
-                                {renderInput({
-                                    fullWidth: true,
-                                    classes,
-                                    label: 'HTML Nugget ID',
-                                    InputLabelProps: getLabelProps(),
-                                    InputProps: {onBlur, onChange, onFocus},
-                                    inputProps,
-                                })}
-
-                                <div {...getMenuProps()}>
-                                    {isOpen &&
-                                    <Paper className={classes.paper} square>
-                                        {suggestions.map((nuggetId, index): React.ReactElement =>
-                                            renderSuggestion({
-                                                nuggetId,
-                                                index,
-                                                itemProps: getItemProps({item: nuggetId}),
-                                                highlightedIndex,
-                                                selectedItem,
-                                            }),
-                                        )}
-                                    </Paper>
-                                    }
-                                </div>
-                            </div>
-                        )
-                    }}
-                </Downshift>
-
+            <FormControl fullWidth required className={classes.formControl} component='div'>
+                <Grid container spacing={3}>
+                    <Grid item xs={4}>
+                        <Autocomplete data={props.ids} selectedData={id} handleChange={setId}/>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <FormControl fullWidth required className={classes.formControlWithoutMargin} component='div'>
+                            <InputLabel htmlFor="nuggetCondition">Condition</InputLabel>
+                            <Select
+                                value={'read'}
+                                displayEmpty
+                                fullWidth
+                                inputProps={{
+                                    name: 'nuggetCondition',
+                                    id: 'nuggetCondition',
+                                }}
+                            >
+                                <MenuItem component='li' button={true} value={'read'}>Read</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <FormControl fullWidth required className={classes.formControlWithoutMargin} component='div'>
+                            <InputLabel htmlFor="nuggetAccessValue">Value</InputLabel>
+                            <Select
+                                value={value || ''}
+                                displayEmpty
+                                fullWidth
+                                onChange={handleValueChange}
+                                inputProps={{
+                                    name: 'nuggetAccessValue',
+                                    id: 'nuggetAccessValue',
+                                }}
+                            >
+                                <MenuItem component='li' button={true} value={1}>True</MenuItem>
+                                <MenuItem component='li' button={true} value={0}>False</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                </Grid>
             </FormControl>
         </>
     )
 }
 
 HtmlNugget.propTypes = {
+    addNugget: PropTypes.func.isRequired,
     ids: PropTypes.array.isRequired,
 }
 

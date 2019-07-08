@@ -4,7 +4,7 @@ export interface LocationInterface {
 }
 
 export interface NuggetConditionInterface {
-    id: number;
+    id: string;
     condition: 'read';
     value: boolean;
 }
