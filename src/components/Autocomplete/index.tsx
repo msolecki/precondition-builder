@@ -99,19 +99,19 @@ const Autocomplete: React.FC<AutocompleteProps> = (props: AutocompleteProps): Re
         )
     }
 
-    function saveValue(value: string): void {
-        props.handleChange(value)
+    function handleChange(changes): void {
+        if (changes.hasOwnProperty('inputValue')) {
+            props.handleChange(changes.inputValue.toString())
+        }
     }
 
     return (
-        <Downshift initialSelectedItem={props.selectedData}>
+        <Downshift initialSelectedItem={props.selectedData} onStateChange={handleChange}>
             {({clearSelection, getInputProps, getItemProps, getLabelProps, getMenuProps, highlightedIndex, inputValue, isOpen, openMenu, selectedItem}): React.ReactElement => {
                 const onChangeData = (event: ChangeEvent<HTMLInputElement>): void => {
                     if (event.target.value === '') {
                         clearSelection()
                     }
-
-                    saveValue(event.target.value)
                 }
 
                 const {onBlur, onChange, onFocus, ...inputProps} = getInputProps({
@@ -119,6 +119,7 @@ const Autocomplete: React.FC<AutocompleteProps> = (props: AutocompleteProps): Re
                     onFocus: openMenu,
                     placeholder: 'Start typing',
                 })
+
 
                 const suggestions = getSuggestions(inputValue, true)
 

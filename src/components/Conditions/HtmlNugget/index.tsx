@@ -40,14 +40,14 @@ const HtmlNugget: React.FC<HtmlNuggetProps> = (props: HtmlNuggetProps): React.Re
     const classes = useStyles()
 
     const [id, setId] = React.useState<string | null>(null)
-    const [value, setValue] = React.useState<boolean | null>(null)
+    const [conditionValue, setConditionValue] = React.useState<number | null>(null)
 
-    function addNugget(): void {
+    function addNuggetHandle(id, condition, value): void {
         if (id && value !== null) {
             props.addNugget({
                 id: id.toString(),
-                condition: 'read',
-                value: value
+                condition: condition,
+                value: Boolean(value)
             })
         }
     }
@@ -55,7 +55,15 @@ const HtmlNugget: React.FC<HtmlNuggetProps> = (props: HtmlNuggetProps): React.Re
     function handleValueChange(event: ChangeEvent<{}>): void {
         const {value} = event.target as HTMLInputElement
 
-        setValue(Boolean(value))
+        setConditionValue(Number(value))
+
+        addNuggetHandle(id, 'read', value)
+    }
+
+    function handleIdChange(id: string): void {
+        setId(id)
+
+        addNuggetHandle(id, 'read', conditionValue)
     }
 
     return (
@@ -64,7 +72,7 @@ const HtmlNugget: React.FC<HtmlNuggetProps> = (props: HtmlNuggetProps): React.Re
             <FormControl fullWidth required className={classes.formControl} component='div'>
                 <Grid container spacing={3}>
                     <Grid item xs={4}>
-                        <Autocomplete data={props.ids} selectedData={id} handleChange={setId}/>
+                        <Autocomplete data={props.ids} selectedData={id} handleChange={handleIdChange}/>
                     </Grid>
                     <Grid item xs={4}>
                         <FormControl fullWidth required className={classes.formControlWithoutMargin} component='div'>
@@ -86,7 +94,7 @@ const HtmlNugget: React.FC<HtmlNuggetProps> = (props: HtmlNuggetProps): React.Re
                         <FormControl fullWidth required className={classes.formControlWithoutMargin} component='div'>
                             <InputLabel htmlFor="nuggetAccessValue">Value</InputLabel>
                             <Select
-                                value={value || ''}
+                                value={conditionValue === null ? '' : Number(conditionValue)}
                                 displayEmpty
                                 fullWidth
                                 onChange={handleValueChange}

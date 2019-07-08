@@ -40,6 +40,7 @@ class App extends React.Component<AppProps, StateInterface> {
 
     public handleAddCondition = (newCondition: ConditionInterface): void => {
         const conditions = this.state.conditions
+
         conditions.push(newCondition)
 
         this.setState({conditions})

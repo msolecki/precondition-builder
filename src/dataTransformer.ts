@@ -1,4 +1,4 @@
-import {ConditionInterface} from './components/App/interfaces'
+import {ConditionInterface, NuggetConditionInterface} from './components/App/interfaces'
 
 export const transform = (conditions: ConditionInterface[], activated: boolean): object => {
     return {
@@ -17,8 +17,14 @@ export const transform = (conditions: ConditionInterface[], activated: boolean):
             if (condition.location && condition.location.radius) {
                 result.push(`location_radius == '${condition.location.radius}'`)
             }
-            
+
+            if (condition.nuggets) {
+                condition.nuggets.forEach((nugget: NuggetConditionInterface) => {
+                    result.push(`public.kesi.additionalData.${nugget.id}.${nugget.condition} == ${nugget.value}`)
+                })
+            }
+
             return result
-        })
+        }).filter(item => item.length > 0)
     }
 }

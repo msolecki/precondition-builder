@@ -34,14 +34,14 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
     const [system, setSystem] = React.useState<string | null>(null)
     const [radius, setRadius] = React.useState<number | null>(null)
     const [latLng, setLatLng] = React.useState<string | null>(null)
-    const [nuggets, setNuggets] = React.useState<NuggetConditionInterface[] | null>(null)
+    const [nuggets, setNuggets] = React.useState<NuggetConditionInterface[]>([])
 
     const clearState = (): void => {
         props.handleActivated(false)
         setLogged(null)
         setRadius(null)
         setLatLng(null)
-        setNuggets(null)
+        setNuggets([])
     }
 
     const addCondition = (): void => {
