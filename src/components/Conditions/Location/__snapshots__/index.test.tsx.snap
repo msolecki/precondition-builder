@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Location /> empty snapshot 1`] = `
+<Fragment>
+  <Title
+    text="Location"
+  />
+  <WithStyles(ForwardRef(Grid))
+    container={true}
+    spacing={3}
+  >
+    <WithStyles(ForwardRef(Grid))
+      item={true}
+      xs={6}
+    >
+      <WithStyles(ForwardRef(FormControl))
+        className="makeStyles-formControlWithoutMargin-3"
+        component="div"
+        fullWidth={true}
+        required={true}
+      >
+        <WithStyles(WithFormControlContext(ForwardRef(InputLabel)))
+          htmlFor="location-radius"
+        >
+          Radius
+        </WithStyles(WithFormControlContext(ForwardRef(InputLabel)))>
+        <WithStyles(ForwardRef(Input))
+          endAdornment={
+            <ForwardRef(WithStyles)
+              position="end"
+            >
+              m
+            </ForwardRef(WithStyles)>
+          }
+          id="location-radius"
+          inputProps={
+            Object {
+              "max": 10000,
+              "min": 5,
+              "step": 1,
+            }
+          }
+          onChange={[Function]}
+          placeholder="0"
+          type="number"
+          value=""
+        />
+      </WithStyles(ForwardRef(FormControl))>
+    </WithStyles(ForwardRef(Grid))>
+    <WithStyles(ForwardRef(Grid))
+      item={true}
+      xs={6}
+    >
+      <WithStyles(ForwardRef(FormControl))
+        className="makeStyles-formControl-2"
+        component="div"
+        fullWidth={true}
+        required={true}
+      >
+        <WithStyles(WithFormControlContext(ForwardRef(InputLabel)))
+          error={false}
+          htmlFor="location-latlng"
+        >
+          GPS
+        </WithStyles(WithFormControlContext(ForwardRef(InputLabel)))>
+        <WithStyles(ForwardRef(Input))
+          error={false}
+          id="location-gps"
+          onChange={[Function]}
+          placeholder="@52.13,13.45"
+          value=""
+        />
+      </WithStyles(ForwardRef(FormControl))>
+    </WithStyles(ForwardRef(Grid))>
+  </WithStyles(ForwardRef(Grid))>
+</Fragment>
+`;

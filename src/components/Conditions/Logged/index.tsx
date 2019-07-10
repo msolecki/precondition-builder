@@ -18,7 +18,7 @@ const useStyles = makeStyles(({spacing}) => ({
     },
 }))
 
-interface LoggedProps {
+export interface LoggedProps {
     onDataChange(value: boolean): void;
 
     logged: boolean | null;

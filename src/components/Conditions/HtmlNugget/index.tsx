@@ -30,7 +30,7 @@ const useStyles = makeStyles(({spacing}) => ({
     },
 }))
 
-interface HtmlNuggetProps {
+export interface HtmlNuggetProps {
     addNugget(value: NuggetConditionInterface): void;
 
     ids: string[];

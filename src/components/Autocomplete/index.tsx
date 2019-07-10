@@ -7,7 +7,7 @@ import Downshift from 'downshift'
 import deburr from 'lodash.deburr'
 import {makeStyles} from '@material-ui/core'
 
-interface AutocompleteProps {
+export interface AutocompleteProps {
     handleChange(value: string): void;
 
     data: string[];
@@ -68,13 +68,9 @@ const Autocomplete: React.FC<AutocompleteProps> = (props: AutocompleteProps): Re
         )
     }
 
-    function getSuggestions(value, showEmpty): string[] {
-        const inputValue = deburr(value.trim()).toLowerCase()
+    function getSuggestions(value): string[] {
+        const inputValue = deburr(value).toLowerCase()
         const inputLength = inputValue.length
-
-        if (inputLength === 0 && !showEmpty) {
-            return []
-        }
 
         return props.data.filter((id): boolean => id.slice(0, inputLength).toLowerCase() === inputValue).slice(0, 5)
     }
@@ -121,7 +117,7 @@ const Autocomplete: React.FC<AutocompleteProps> = (props: AutocompleteProps): Re
                 })
 
 
-                const suggestions = getSuggestions(inputValue, true)
+                const suggestions = getSuggestions(inputValue)
 
                 return (
                     <div className={classes.container}>

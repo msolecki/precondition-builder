@@ -15,7 +15,7 @@ export interface StateInterface {
     activated: boolean;
 }
 
-interface AppProps {
+export interface AppProps {
     htmlNuggetIds: string[];
 }
 

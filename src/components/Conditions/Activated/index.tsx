@@ -18,7 +18,7 @@ const useStyles = makeStyles(({spacing}) => ({
     },
 }))
 
-interface ActivatedProps {
+export interface ActivatedProps {
     onDataChange(value: boolean): void;
 
     activated: boolean | null;

@@ -10,7 +10,7 @@ const useStyles = makeStyles(({spacing}) => ({
     },
 }))
 
-interface AdvancedTabProps {
+export interface AdvancedTabProps {
     data: object;
 }
 

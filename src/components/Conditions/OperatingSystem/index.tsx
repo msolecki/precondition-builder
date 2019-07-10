@@ -18,7 +18,7 @@ const useStyles = makeStyles(({spacing}) => ({
     },
 }))
 
-interface OperatingSystemProps {
+export interface OperatingSystemProps {
     onDataChange(value: string | null): void;
 
     system: string | null;

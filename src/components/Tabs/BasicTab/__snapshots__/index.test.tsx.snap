@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Activated /> empty snapshot 1`] = `
+<WithStyles(ForwardRef(Paper))
+  className="makeStyles-root-1"
+>
+  <form
+    autoComplete="off"
+  >
+    <WithStyles(ForwardRef(Grid))
+      container={true}
+      spacing={3}
+    >
+      <WithStyles(ForwardRef(Grid))
+        item={true}
+        xs={12}
+      >
+        <Activated
+          activated={true}
+          onDataChange={[MockFunction]}
+        />
+      </WithStyles(ForwardRef(Grid))>
+    </WithStyles(ForwardRef(Grid))>
+    <WithStyles(ForwardRef(Grid))
+      container={true}
+      spacing={3}
+    >
+      <WithStyles(ForwardRef(Grid))
+        item={true}
+        xs={6}
+      >
+        <OperatingSystem
+          onDataChange={[Function]}
+          system={null}
+        />
+      </WithStyles(ForwardRef(Grid))>
+      <WithStyles(ForwardRef(Grid))
+        item={true}
+        xs={6}
+      >
+        <Logged
+          logged={null}
+          onDataChange={[Function]}
+        />
+      </WithStyles(ForwardRef(Grid))>
+    </WithStyles(ForwardRef(Grid))>
+    <Location
+      latLng={null}
+      radius={null}
+      setLatLng={[Function]}
+      setRadius={[Function]}
+    />
+    <HtmlNugget
+      addNugget={[Function]}
+      ids={
+        Array [
+          "1",
+        ]
+      }
+    />
+    <WithStyles(ForwardRef(Grid))
+      container={true}
+      spacing={3}
+    >
+      <WithStyles(ForwardRef(Grid))
+        item={true}
+        xs={4}
+      >
+        <WithStyles(ForwardRef(Button))
+          color="primary"
+          fullWidth={true}
+          variant="contained"
+        >
+          Add Condition
+        </WithStyles(ForwardRef(Button))>
+      </WithStyles(ForwardRef(Grid))>
+      <WithStyles(ForwardRef(Grid))
+        item={true}
+        xs={4}
+      >
+        <WithStyles(ForwardRef(Button))
+          color="default"
+          fullWidth={true}
+          onClick={[Function]}
+          variant="contained"
+        >
+          Clear
+        </WithStyles(ForwardRef(Button))>
+      </WithStyles(ForwardRef(Grid))>
+      <WithStyles(ForwardRef(Grid))
+        item={true}
+        xs={4}
+      >
+        <WithStyles(ForwardRef(Button))
+          color="secondary"
+          fullWidth={true}
+          onClick={[Function]}
+          variant="contained"
+        >
+          Save
+        </WithStyles(ForwardRef(Button))>
+      </WithStyles(ForwardRef(Grid))>
+    </WithStyles(ForwardRef(Grid))>
+  </form>
+</WithStyles(ForwardRef(Paper))>
+`;

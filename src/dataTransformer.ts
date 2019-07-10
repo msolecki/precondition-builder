@@ -10,7 +10,7 @@ export const transform = (conditions: ConditionInterface[], activated: boolean):
                 result.push(`client.tracking.system.os == '${condition.system}'`)
             }
 
-            if (condition.logged) {
+            if (condition.logged !== null) {
                 result.push(`logged == '${condition.logged}'`)
             }
 
@@ -19,12 +19,12 @@ export const transform = (conditions: ConditionInterface[], activated: boolean):
             }
 
             if (condition.nuggets) {
-                condition.nuggets.forEach((nugget: NuggetConditionInterface) => {
+                condition.nuggets.forEach((nugget: NuggetConditionInterface): void => {
                     result.push(`public.kesi.additionalData.${nugget.id}.${nugget.condition} == ${nugget.value}`)
                 })
             }
 
             return result
-        }).filter(item => item.length > 0)
+        }).filter((item): boolean => item.length > 0)
     }
 }

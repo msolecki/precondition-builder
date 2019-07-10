@@ -3,18 +3,12 @@ import {create, ReactTestRenderer} from 'react-test-renderer'
 
 import Title from './index'
 
-
-let snapshot: ReactTestRenderer
-
-beforeEach(() => {
+describe('<Title />', () => {
     const title = <Title text='test title'/>
 
-
-    snapshot = create(title)
-})
-
-describe('<Title />', () => {
     test('it matches the snapshot', () => {
+        const snapshot: ReactTestRenderer = create(title)
+
         expect(snapshot.toJSON()).toMatchSnapshot()
     })
 })

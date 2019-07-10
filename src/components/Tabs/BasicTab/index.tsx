@@ -8,7 +8,7 @@ import Logged from '../../Conditions/Logged'
 import Location from '../../Conditions/Location'
 import {ConditionInterface, NuggetConditionInterface} from '../../App/interfaces'
 import PropTypes from 'prop-types'
-import OperatingSystem from '../../Conditions/OperationSystem'
+import OperatingSystem from '../../Conditions/OperatingSystem'
 import HtmlNugget from '../../Conditions/HtmlNugget'
 
 const useStyles = makeStyles(({spacing}) => ({
@@ -17,7 +17,7 @@ const useStyles = makeStyles(({spacing}) => ({
     },
 }))
 
-interface BasicTabProps {
+export interface BasicTabProps {
     handleAddCondition(value: ConditionInterface): void;
 
     handleActivated(value: boolean): void;

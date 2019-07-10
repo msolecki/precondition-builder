@@ -24,7 +24,7 @@ const useStyles = makeStyles(({spacing}) => ({
     },
 }))
 
-interface LocationProps {
+export interface LocationProps {
     setRadius(value: number): void;
 
     setLatLng(value: string): void;
