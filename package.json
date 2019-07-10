@@ -1,6 +1,7 @@
 {
     "name": "precondition_builder",
     "version": "0.1.0",
+    "homepage": "https://msolecki.github.io/precondition-builder",
     "private": true,
     "dependencies": {
         "@material-ui/core": "^4.2.0",
@@ -27,6 +28,7 @@
         "enzyme-to-json": "^3.3.5",
         "eslint-config-react": "^1.1.7",
         "eslint-plugin-react": "^7.14.2",
+        "gh-pages": "^2.0.1",
         "jest": "^24.8.0",
         "react-test-renderer": "^16.8.6",
         "ts-jest": "^24.0.2"
@@ -34,6 +36,8 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
+        "predeploy": "yarn build --production",
+        "deploy": "gh-pages -d build",
         "test": "jest",
         "test:watch": "jest --watch",
         "test:coverage": "jest --coverage",
