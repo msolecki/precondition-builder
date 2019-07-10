@@ -35,7 +35,7 @@ export interface LocationProps {
 
 const Location: React.FC<LocationProps> = (props: LocationProps): React.ReactElement => {
     const classes = useStyles()
-    const [latLngError, setLatLngError] = React.useState<boolean>(false)
+    const [latLngError, setLatLngError] = React.useState<boolean>(props.latLng !== null)
 
     function handleRadiusChange(event: ChangeEvent<{}>): void {
         const {value} = event.target as HTMLInputElement
