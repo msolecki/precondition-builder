@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<Title /> it matches the snapshot 1`] = `
-<h5
-  className="MuiTypography-root MuiTypography-h5"
->
-  test title
-</h5>
-`;
