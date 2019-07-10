@@ -64,19 +64,20 @@ exports[`<Activated /> empty snapshot 1`] = `
     >
       <WithStyles(ForwardRef(Grid))
         item={true}
-        xs={4}
+        xs={6}
       >
         <WithStyles(ForwardRef(Button))
-          color="primary"
+          color="secondary"
           fullWidth={true}
+          onClick={[Function]}
           variant="contained"
         >
-          Add Condition
+          Add condition
         </WithStyles(ForwardRef(Button))>
       </WithStyles(ForwardRef(Grid))>
       <WithStyles(ForwardRef(Grid))
         item={true}
-        xs={4}
+        xs={6}
       >
         <WithStyles(ForwardRef(Button))
           color="default"
@@ -85,19 +86,6 @@ exports[`<Activated /> empty snapshot 1`] = `
           variant="contained"
         >
           Clear
-        </WithStyles(ForwardRef(Button))>
-      </WithStyles(ForwardRef(Grid))>
-      <WithStyles(ForwardRef(Grid))
-        item={true}
-        xs={4}
-      >
-        <WithStyles(ForwardRef(Button))
-          color="secondary"
-          fullWidth={true}
-          onClick={[Function]}
-          variant="contained"
-        >
-          Save
         </WithStyles(ForwardRef(Button))>
       </WithStyles(ForwardRef(Grid))>
     </WithStyles(ForwardRef(Grid))>

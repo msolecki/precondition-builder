@@ -86,19 +86,14 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
                 <Location setRadius={setRadius} setLatLng={setLatLng} radius={radius} latLng={latLng}/>
                 <HtmlNugget ids={props.htmlNuggetIds} addNugget={addNugget}/>
                 <Grid container spacing={3}>
-                    <Grid item xs={4}>
-                        <Button variant="contained" color="primary" fullWidth>
-                            Add Condition
+                    <Grid item xs={6}>
+                        <Button variant="contained" color="secondary" onClick={onSave} fullWidth>
+                            Add condition
                         </Button>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6}>
                         <Button variant="contained" color="default" onClick={clearState} fullWidth>
                             Clear
-                        </Button>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Button variant="contained" color="secondary" onClick={onSave} fullWidth>
-                            Save
                         </Button>
                     </Grid>
                 </Grid>
