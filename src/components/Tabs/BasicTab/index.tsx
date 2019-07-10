@@ -37,10 +37,10 @@ const BasicTab: React.FC<BasicTabProps> = (props: BasicTabProps): React.ReactEle
     const [nuggets, setNuggets] = React.useState<NuggetConditionInterface[]>([])
 
     const clearState = (): void => {
-        props.handleActivated(false)
         setLogged(null)
         setRadius(null)
         setLatLng(null)
+        setSystem(null)
         setNuggets([])
     }
 
